@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pac-Man</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="game.js" defer></script>
+</head>
+<body>
+  <h1>Pac-Man by Tolu</h1>
+  <main>
+    <section id="menu" class="menu">
+      <label for="player-name">Dein Spielername</label>
+      <input id="player-name" type="text" maxlength="16" required placeholder="Name eingeben">
+      <button id="start-button" type="button">Spiel starten</button>
+      <h2>Top 5 Rekorde</h2>
+      <ol id="highscores"></ol>
+    </section>
+    <canvas id="game" width="560" height="700" hidden></canvas>
+    <button id="music-toggle" type="button" aria-pressed="true">Musik: an</button>
+  </main>
+</body>
+</html>

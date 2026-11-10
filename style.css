@@ -1,0 +1,96 @@
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  padding: 24px;
+  box-sizing: border-box;
+  background: #111;
+  color: white;
+  font-family: sans-serif;
+}
+
+main {
+  width: min(100%, 560px);
+}
+
+.menu {
+  min-height: 400px;
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  gap: 16px;
+  padding: 32px;
+  box-sizing: border-box;
+  border: 2px solid #444;
+  background: #181818;
+}
+
+.menu h2 {
+  margin: 12px 0 0;
+  color: #ffdf00;
+}
+
+#player-name {
+  width: min(100%, 280px);
+  padding: 10px 12px;
+  box-sizing: border-box;
+  border: 1px solid #777;
+  border-radius: 4px;
+  background: #111;
+  color: white;
+  font: inherit;
+}
+
+#start-button {
+  padding: 12px 28px;
+  border: 0;
+  border-radius: 6px;
+  background: #ffdf00;
+  color: #111;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#start-button:hover {
+  background: #ffe94d;
+}
+
+#music-toggle {
+  display: block;
+  margin: 12px auto 0;
+  padding: 8px 16px;
+  border: 1px solid #777;
+  border-radius: 6px;
+  background: #222;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+
+#music-toggle:hover {
+  background: #333;
+}
+
+#highscores {
+  width: 100%;
+  margin: 0;
+  padding-left: 32px;
+}
+
+#highscores li {
+  padding: 6px 0;
+}
+
+canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #444;
+}
+
+[hidden] {
+  display: none !important;
+}
