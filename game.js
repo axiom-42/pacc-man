@@ -8,6 +8,7 @@ let startLabyrinth;
 let mindestPunktAnzahl;
 const canvas = document.querySelector("#game");
 const ctx = canvas.getContext("2d");
+const touchControls = document.querySelector("#touch-controls");
 const menu = document.querySelector("#menu");
 const startButton = document.querySelector("#start-button");
 const musikKnopf = document.querySelector("#music-toggle");
@@ -1055,6 +1056,7 @@ function pruefeGeisterKollision() {
     zeichneSpiel();
     setTimeout(function () {
       canvas.hidden = true;
+      touchControls.hidden = true;
       menu.hidden = false;
     }, 1800);
     return;
@@ -1226,6 +1228,25 @@ function spielSchritt() {
   zeichneSpiel();
 }
 
+function setzeSpielRichtung(richtung) {
+  const richtungen = {
+    up: [-1, 0, -Math.PI / 2],
+    down: [1, 0, Math.PI / 2],
+    left: [0, -1, Math.PI],
+    right: [0, 1, 0]
+  };
+  const neueRichtung = richtungen[richtung];
+  if (!neueRichtung) {
+    return false;
+  }
+
+  bewegungZeile = neueRichtung[0];
+  bewegungSpalte = neueRichtung[1];
+  blickRichtung = neueRichtung[2];
+  zeichneSpiel();
+  return true;
+}
+
 document.addEventListener("keydown", function (event) {
   if (event.key.toLowerCase() === "m") {
     event.preventDefault();
@@ -1238,29 +1259,34 @@ document.addEventListener("keydown", function (event) {
   }
 
   const taste = event.key.toLowerCase();
+  const richtungNachTaste = {
+    ArrowUp: "up",
+    w: "up",
+    ArrowDown: "down",
+    s: "down",
+    ArrowLeft: "left",
+    a: "left",
+    ArrowRight: "right",
+    d: "right"
+  };
+  const richtung = richtungNachTaste[event.key] || richtungNachTaste[taste];
 
-  if (event.key === "ArrowUp" || taste === "w") {
-    bewegungZeile = -1;
-    bewegungSpalte = 0;
-    blickRichtung = -Math.PI / 2;
-  } else if (event.key === "ArrowDown" || taste === "s") {
-    bewegungZeile = 1;
-    bewegungSpalte = 0;
-    blickRichtung = Math.PI / 2;
-  } else if (event.key === "ArrowLeft" || taste === "a") {
-    bewegungZeile = 0;
-    bewegungSpalte = -1;
-    blickRichtung = Math.PI;
-  } else if (event.key === "ArrowRight" || taste === "d") {
-    bewegungZeile = 0;
-    bewegungSpalte = 1;
-    blickRichtung = 0;
-  } else {
+  if (!richtung) {
     return;
   }
 
   event.preventDefault();
-  zeichneSpiel();
+  setzeSpielRichtung(richtung);
+});
+
+touchControls.addEventListener("pointerdown", function (event) {
+  const richtungsTaste = event.target.closest("[data-direction]");
+  if (!richtungsTaste || canvas.hidden || spielVorbei) {
+    return;
+  }
+
+  event.preventDefault();
+  setzeSpielRichtung(richtungsTaste.dataset.direction);
 });
 
 setzeGeisterZurueck();
@@ -1278,6 +1304,7 @@ startButton.addEventListener("click", function () {
   spielerName = eingegebenerName;
   menu.hidden = true;
   canvas.hidden = false;
+  touchControls.hidden = false;
   spielNeuStarten();
   if (window.AudioContext) {
     audioContext ??= new window.AudioContext();
